@@ -75,6 +75,10 @@ def runPngout(file):
     processFile(file, newExt = "png", cmdLine = "pngout %input%", quiet = True)
 
 
+def runZopflipng(file):
+    processFile(file, newExt = "png", cmdLine = "zopflipng -m -y %input% %output%", quiet = True)
+
+
 def optimizePNG(file):
     import os
 
