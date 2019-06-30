@@ -1,4 +1,4 @@
-#!/bin/python2
+#!/bin/python3
 
 def enumFilesFilter(dir, ext = None, recurisve = False):
     """
@@ -11,11 +11,11 @@ def enumFilesFilter(dir, ext = None, recurisve = False):
     import os
 
     ret = []
-    walker = os.walk(unicode(dir))
+    walker = os.walk(str(dir))
     for path, _, filenames in walker:
         relPath = path[(len(dir) + 1):]
         if relPath:
-            fileFullPaths = map(lambda x: relPath + os.sep + x, filenames)
+            fileFullPaths = [relPath + os.sep + x for x in filenames]
         else:
             fileFullPaths = filenames
 
@@ -25,7 +25,7 @@ def enumFilesFilter(dir, ext = None, recurisve = False):
             break
 
     if ext:
-        ret = filter(lambda f: f.endswith(ext), ret)
+        ret = [f for f in ret if f.endswith(ext)]
     return ret
 
 
@@ -35,13 +35,13 @@ def generateCmds(fileList, cmdLine):
     cmdLine, Input, the command line string, the string "%listEntry%" will be replaced by entries in `fileList`
     """
 
-    ret = map(lambda f: cmdLine.replace("%listEntry%", f), fileList)
+    ret = [cmdLine.replace("%listEntry%", f) for f in fileList]
     return ret
 
 
 def printList(cmdList):
     for c in cmdList:
-        print c.encode('utf-8')  # comment when printing to windows console
+        print(c)
 
 
 if __name__ == "__main__":
@@ -51,5 +51,5 @@ if __name__ == "__main__":
     filesList = enumFilesFilter(currentDir, ext = "png", recurisve = False)
     if filesList:
         cmdsList = ["### Threads: 3 ###"]
-        cmdsList += generateCmds(filesList, cmdLine = "python2 transcode.py \"%listEntry%\"")
+        cmdsList += generateCmds(filesList, cmdLine = "python transcode.py \"%listEntry%\"")
         printList(cmdsList)

@@ -5,7 +5,7 @@
 
 Most of the time, I'll want:
 ```shell
-python2 enumFiles.py | concurrent -
+python enumFiles.py | concurrent -
 ```
 
 * `enumFiles.py`:

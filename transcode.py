@@ -1,4 +1,4 @@
-#!/bin/python2
+#!/bin/python3
 
 def processFile(file, newExt, cmdLine, quiet = False):
     """
@@ -14,9 +14,7 @@ def processFile(file, newExt, cmdLine, quiet = False):
     import sys
     import tempfile
 
-    if sys.platform == "win32":
-        file = file.encode('utf-8')
-    print "\n processing: %s \n" % file
+    print("\n processing: %s \n" % file)
 
     fsplit = file.rsplit(".", 1)
     origFileName = fsplit[0]
@@ -32,7 +30,7 @@ def processFile(file, newExt, cmdLine, quiet = False):
 
     tmpFile = tempfile.NamedTemporaryFile(dir = tmpDir, suffix = "." + origFileExt, delete = False)
     tmpFile.close()
-    shutil.copyfile(file.decode('utf-8'), tmpFile.name)
+    shutil.copyfile(file, tmpFile.name)
 
     # process command
     tmpInputName = tmpFile.name
@@ -56,7 +54,7 @@ def processFile(file, newExt, cmdLine, quiet = False):
         quietArg.close()
 
     # cleanup
-    shutil.move(tmpOutputName, origFileName.decode('utf-8') + "." + newExt)
+    shutil.move(tmpOutputName, origFileName + "." + newExt)
     try:
         os.remove(tmpInputName)
     except OSError:
@@ -98,7 +96,7 @@ def runJpegoptim(file):
 
 
 def runCwebp(file):
-    processFile(file, newExt = "webp", cmdLine = "cwebp -v -lossless -q 100 -m 6 %input% -o %output%", quiet = True)
+    processFile(file, newExt = "webp", cmdLine = "cwebp.exe -v -lossless -q 100 -m 6 %input% -o %output%", quiet = True)
 
 
 if __name__ == "__main__":
